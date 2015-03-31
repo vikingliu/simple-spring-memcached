@@ -76,7 +76,9 @@ public class ReadThroughMultiCacheAdvice extends MultiCacheAdvice {
             // Get the annotation associated with this method, and make sure the values are valid.
             annotation = methodToCache.getAnnotation(ReadThroughMultiCache.class);
             serializationType = getCacheBase().getSerializationType(methodToCache);
-
+            if(refreshCache(methodToCache,args)){
+                return pjp.proceed(args);
+            }
             data = AnnotationDataBuilder.buildAnnotationData(annotation, ReadThroughMultiCache.class, methodToCache);
             coord = new MultiCacheCoordinator(methodToCache, data);
             setMultiCacheOptions(coord, annotation.option());
