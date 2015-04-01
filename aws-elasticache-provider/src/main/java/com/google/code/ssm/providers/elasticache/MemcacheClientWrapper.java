@@ -353,5 +353,4 @@ class MemcacheClientWrapper extends AbstractMemcacheClientWrapper {
             return new CachedObjectImpl(cachedData.getFlags(), cachedData.getData());
         }
     }
-
 }

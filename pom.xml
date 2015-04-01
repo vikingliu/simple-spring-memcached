@@ -74,6 +74,7 @@
 		<module>spring-cache</module>
 		<module>spring-cache-integration-test</module>
 		<module>jmemcached-maven-plugin</module>
+		<module>spring-zookeeper</module>
 	</modules>
 
 	<prerequisites>

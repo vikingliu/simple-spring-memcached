@@ -1,18 +1,19 @@
 /*
- * Copyright (c) 2012-2015 Jakub Białek
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
- * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
- * Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
- * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
- * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * Copyright (c) 2012-2015 Jakub Białek Permission is hereby granted, free of
+ * charge, to any person obtaining a copy of this software and associated
+ * documentation files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use, copy, modify,
+ * merge, publish, distribute, sublicense, and/or sell copies of the Software,
+ * and to permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions: The above copyright notice and this permission
+ * notice shall be included in all copies or substantial portions of the
+ * Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO
+ * EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES
+ * OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.
  */
 
 package com.google.code.ssm;
@@ -26,10 +27,8 @@ import com.google.code.ssm.api.format.SerializationType;
 import com.google.code.ssm.providers.CacheException;
 
 /**
- * 
  * @author Jakub Białek
  * @since 2.0.0
- * 
  */
 public interface Cache {
 
@@ -61,7 +60,6 @@ public interface Cache {
     CacheProperties getProperties();
 
     /**
-     * 
      * @since 3.5.0
      * @return true if cache is enabled
      */
@@ -78,12 +76,15 @@ public interface Cache {
      * @throws TimeoutException
      * @throws CacheException
      */
-    <T> boolean add(final String key, final int exp, final Object value, final SerializationType serializationType) throws TimeoutException,
+    <T> boolean add(final String key, final int exp, final Object value,
+            final SerializationType serializationType) throws TimeoutException,
             CacheException;
 
-    <T> boolean addSilently(final String cacheKey, final int expiration, final Object value, final SerializationType serializationType);
+    <T> boolean addSilently(final String cacheKey, final int expiration,
+            final Object value, final SerializationType serializationType);
 
-    long decr(final String key, final int by) throws TimeoutException, CacheException;
+    long decr(final String key, final int by) throws TimeoutException,
+            CacheException;
 
     /**
      * Deletes value under given key.
@@ -102,7 +103,8 @@ public interface Cache {
      * @throws TimeoutException
      * @throws CacheException
      */
-    void delete(final Collection<String> keys) throws TimeoutException, CacheException;
+    void delete(final Collection<String> keys) throws TimeoutException,
+            CacheException;
 
     /**
      * Flushes all data.
@@ -124,14 +126,18 @@ public interface Cache {
      * @throws TimeoutException
      * @throws CacheException
      */
-    <T> T get(final String key, final SerializationType serializationType) throws TimeoutException, CacheException;
+    <T> T get(final String key, final SerializationType serializationType)
+            throws TimeoutException, CacheException;
 
-    Map<String, Object> getBulk(final Collection<String> keys, final SerializationType serializationType) throws TimeoutException,
+    Map<String, Object> getBulk(final Collection<String> keys,
+            final SerializationType serializationType) throws TimeoutException,
             CacheException;
 
-    long incr(final String key, final int by, final long def) throws TimeoutException, CacheException;
+    long incr(final String key, final int by, final long def)
+            throws TimeoutException, CacheException;
 
-    long incr(final String key, final int by, final long def, final int exp) throws TimeoutException, CacheException;
+    long incr(final String key, final int by, final long def, final int exp)
+            throws TimeoutException, CacheException;
 
     /**
      * Store key-value item to memcached.
@@ -148,10 +154,12 @@ public interface Cache {
      * @throws TimeoutException
      * @throws CacheException
      */
-    <T> void set(final String key, final int exp, final Object value, final SerializationType serializationType) throws TimeoutException,
+    <T> void set(final String key, final int exp, final Object value,
+            final SerializationType serializationType) throws TimeoutException,
             CacheException;
 
-    <T> void setSilently(final String cacheKey, final int expiration, final Object value, final SerializationType serializationType);
+    <T> void setSilently(final String cacheKey, final int expiration,
+            final Object value, final SerializationType serializationType);
 
     /**
      * Gets counter from cache without incrementing.
@@ -161,7 +169,8 @@ public interface Cache {
      * @throws CacheException
      * @throws TimeoutException
      */
-    Long getCounter(final String cacheKey) throws TimeoutException, CacheException;
+    Long getCounter(final String cacheKey) throws TimeoutException,
+            CacheException;
 
     /**
      * Sets initial value of counter.
@@ -172,7 +181,8 @@ public interface Cache {
      * @throws CacheException
      * @throws TimeoutException
      */
-    void setCounter(final String cacheKey, final int expiration, final long value) throws TimeoutException, CacheException;
+    void setCounter(final String cacheKey, final int expiration,
+            final long value) throws TimeoutException, CacheException;
 
     /**
      * Shutdowns cache.
@@ -180,8 +190,9 @@ public interface Cache {
     void shutdown();
 
     /**
-     * Expose native memcached client. Do not store reference to this client because it can change in runtime when using
-     * some feature (like runtime memcached nodes switching).
+     * Expose native memcached client. Do not store reference to this client
+     * because it can change in runtime when using some feature (like runtime
+     * memcached nodes switching).
      * 
      * @since 3.5.0
      * @return current instance of native memcached client

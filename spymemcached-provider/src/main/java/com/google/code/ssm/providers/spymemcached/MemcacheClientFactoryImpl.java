@@ -64,6 +64,7 @@ public class MemcacheClientFactoryImpl implements CacheClientFactory {
             }
 
             connectionFactory = builder.build();
+           
         }
 
         return new MemcacheClientWrapper(new MemcachedClient(connectionFactory, addrs));
