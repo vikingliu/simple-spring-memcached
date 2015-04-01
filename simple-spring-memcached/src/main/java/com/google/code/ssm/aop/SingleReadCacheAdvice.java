@@ -57,26 +57,23 @@ abstract class SingleReadCacheAdvice<T extends Annotation> extends CacheAdvice {
         String cacheKey = null;
         try {
             final Method methodToCache = getCacheBase().getMethodToCache(pjp);
-            if(refreshCache(methodToCache,pjp.getArgs())){
-                return pjp.proceed();
-            }
             getCacheBase().verifyReturnTypeIsNoVoid(methodToCache, annotationClass);
             annotation = methodToCache.getAnnotation(annotationClass);
             serializationType = getCacheBase().getSerializationType(methodToCache);
             data = AnnotationDataBuilder.buildAnnotationData(annotation, annotationClass, methodToCache);
-
             cacheKey = getCacheKey(data, pjp.getArgs(), methodToCache.toString());
-
-            final Object result = getCacheBase().getCache(data).get(cacheKey, serializationType);
-            if (result != null) {
-                getLogger().debug("Cache hit.");
-                return getCacheBase().getResult(result);
+            if(!refreshCache(methodToCache,pjp.getArgs())){
+                final Object result = getCacheBase().getCache(data).get(cacheKey, serializationType);
+                if (result != null) {
+                    getLogger().debug("Cache hit.");
+                    return getCacheBase().getResult(result);
+                }
             }
         } catch (Exception ex) {
             warn(ex, "Caching on method %s and key [%s] aborted due to an error.", pjp.toShortString(), cacheKey);
             return pjp.proceed();
         }
-
+     
         final Object result = pjp.proceed();
 
         // This is injected caching. If anything goes wrong in the caching, LOG

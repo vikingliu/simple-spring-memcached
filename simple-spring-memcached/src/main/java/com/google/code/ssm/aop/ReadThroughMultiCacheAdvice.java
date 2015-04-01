@@ -76,9 +76,6 @@ public class ReadThroughMultiCacheAdvice extends MultiCacheAdvice {
             // Get the annotation associated with this method, and make sure the values are valid.
             annotation = methodToCache.getAnnotation(ReadThroughMultiCache.class);
             serializationType = getCacheBase().getSerializationType(methodToCache);
-            if(refreshCache(methodToCache,args)){
-                return pjp.proceed(args);
-            }
             data = AnnotationDataBuilder.buildAnnotationData(annotation, ReadThroughMultiCache.class, methodToCache);
             coord = new MultiCacheCoordinator(methodToCache, data);
             setMultiCacheOptions(coord, annotation.option());
@@ -90,14 +87,16 @@ public class ReadThroughMultiCacheAdvice extends MultiCacheAdvice {
                     .toString());
             coord.setListKeyObjects(listKeyObjects);
 
-            // Get the full list of cache keys and ask the cache for the corresponding values.
-            coord.setInitialKey2Result(getCacheBase().getCache(data).getBulk(coord.getKey2Obj().keySet(), serializationType));
+            if(!refreshCache(methodToCache,args)){
+                // Get the full list of cache keys and ask the cache for the corresponding values.
+                coord.setInitialKey2Result(getCacheBase().getCache(data).getBulk(coord.getKey2Obj().keySet(), serializationType));
+    
+                // We've gotten all positive cache results back, so build up a results list and return it.
+                if (coord.getMissedObjects().isEmpty()) {
+                    return coord.generateResultList();
+                }
 
-            // We've gotten all positive cache results back, so build up a results list and return it.
-            if (coord.getMissedObjects().isEmpty()) {
-                return coord.generateResultList();
             }
-
             // Create the new list of arguments with a subset of the key objects that aren't in the cache. Do not modify
             // directly argument array from join point!
             args = coord.createModifiedArgumentList(args);
